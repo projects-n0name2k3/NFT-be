@@ -12,7 +12,7 @@ async function bootstrap() {
   const configService = app.get(config_1.ConfigService);
   app.setGlobalPrefix('api/v1');
   app.enableCors({
-    origin: 'https://nft-4lib.vercel.app/',
+    origin: 'https://nft-4lib.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

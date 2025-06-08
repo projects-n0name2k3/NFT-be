@@ -15,7 +15,7 @@ async function bootstrap() {
 
   //config cors
   app.enableCors({
-    origin: 'https://nft-4lib.vercel.app/',
+    origin: 'https://nft-4lib.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
