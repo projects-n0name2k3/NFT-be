@@ -20,10 +20,7 @@ class AbiConfig {
   );
   static marketplaceEvent = JSON.parse(
     fs.readFileSync(
-      nodePath.join(
-        __dirname,
-        '../common/abi/abi-marketplace-event-manager.json',
-      ),
+      nodePath.join(__dirname, '../common/abi/abi-marketplace.json'),
       'utf-8',
     ),
   );
