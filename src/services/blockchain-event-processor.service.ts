@@ -7,23 +7,23 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Cache } from 'cache-manager';
 import { Interface } from 'ethers';
-import { AbiConfig } from 'src/config/abi.config';
+import { AbiConfig } from '../config/abi.config';
 import { BlockchainSnapshotsService } from 'src/services/blockchain-snapshots.service';
-import { EventStatus, Event } from 'src/entities/event.entity';
+import { EventStatus, Event } from '../entities/event.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   BlockchainSnapshot,
   BlockchainSnapshotStatus,
-} from 'src/entities/blockchain-snapshot.entity';
+} from '../entities/blockchain-snapshot.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   NftTicket,
   TicketSaleTransaction,
   TicketTier,
   User,
-} from 'src/entities';
-import { TicketSaleStatus } from 'src/entities/ticket-sale-transaction.entity';
+} from '../entities';
+import { TicketSaleStatus } from '../entities/ticket-sale-transaction.entity';
 
 export enum EventBlockchain {
   CREATE_EVENT = 'CreatedEvent',
