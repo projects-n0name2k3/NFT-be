@@ -2,21 +2,29 @@ import { ethers, Interface } from 'ethers';
 import * as fs from 'fs';
 import path from 'path';
 
+const getBasePath = () => {
+  // Sử dụng process.cwd() cho môi trường Vercel
+  if (process.env.VERCEL) {
+    return path.join(process.cwd(), 'common/abi');
+  }
+  // Sử dụng __dirname cho môi trường local
+  return path.resolve(__dirname, '../../common/abi');
+};
+
+const basePath = getBasePath();
+
 class AbiConfig {
   static abiEvent = JSON.parse(
-    fs.readFileSync(
-      path.join(__dirname, '../../common/abi/abi-event-manager.json'), // Điều chỉnh số cấp thư mục
-      'utf-8',
-    ),
+    fs.readFileSync(path.join(basePath, 'abi-event-manager.json'), 'utf-8'),
   );
   static ticketEvent = JSON.parse(
     fs.readFileSync(
-      path.join(
-        __dirname,
-        '../../common/abi/abi-sold-ticket-event-manager.json',
-      ), // Điều chỉnh số cấp thư mục
+      path.join(basePath, 'abi-sold-ticket-event-manager.json'),
       'utf-8',
     ),
+  );
+  static marketplaceAbi = JSON.parse(
+    fs.readFileSync(path.join(basePath, 'abi-marketplace.json'), 'utf-8'),
   );
   static marketplaceEvent = JSON.parse(
     fs.readFileSync(
