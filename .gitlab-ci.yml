@@ -1,0 +1,32 @@
+trivy-secret-scan:
+  stage: test
+  script:
+    # Colors for output
+    - RED='\033[0;31m'
+    - GREEN='\033[0;32m'
+    - YELLOW='\033[1;33m'
+    - NC='\033[0m' # No Color
+    
+    - echo -e "${YELLOW}Starting Trivy Security Scan...${NC}\n"
+    
+    # Update Trivy to the latest version and database
+    - echo -e "${YELLOW}Updating Trivy Database...${NC}"
+    - trivy --version
+    - trivy fs --download-db-only
+    - trivy image --download-db-only
+
+    # Scan for vulnerabilities in project dependencies
+    - echo -e "${YELLOW}Scanning project dependencies...${NC}"
+    - trivy fs --scanners vuln --severity CRITICAL,HIGH,MEDIUM,LOW --format table .
+
+    # Scan for secrets
+    - echo -e "\n${YELLOW}Scanning for secrets...${NC}"
+    - trivy fs --scanners secret --severity CRITICAL,HIGH,MEDIUM,LOW --format table .
+
+    # Scan for misconfigurations
+    - echo -e "\n${YELLOW}Scanning for misconfigurations...${NC}"
+    - trivy fs --scanners misconfig --severity CRITICAL,HIGH,MEDIUM,LOW --format table .
+  # only:
+  #   - merge_requests
+  #   - branches
+  # allow_failure: false

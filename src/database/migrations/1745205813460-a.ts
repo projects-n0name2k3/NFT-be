@@ -1,0 +1,124 @@
+import { MigrationInterface, QueryRunner } from "typeorm";
+
+export class A1745205813460 implements MigrationInterface {
+    name = 'A1745205813460'
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`CREATE TABLE "nft_tickets" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "quantity" integer NOT NULL, "owner_id" uuid, "tier_id" uuid, CONSTRAINT "PK_aa400b21bad6ac41c836337c11d" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_750903ba713ebe98677f85b4a3" ON "nft_tickets" ("owner_id") `);
+        await queryRunner.query(`CREATE TYPE "public"."ticket_sale_transactions_status_enum" AS ENUM('draft', 'selling', 'sold', 'closed', 'pending')`);
+        await queryRunner.query(`CREATE TABLE "ticket_sale_transactions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "sale_id" integer, "seller_wallet_address" character varying NOT NULL, "buyer_wallet_address" character varying, "transaction_hash" character varying NOT NULL, "price_per_ticket" numeric NOT NULL, "initialQuantity" integer NOT NULL, "remainingQuantity" integer, "status" "public"."ticket_sale_transactions_status_enum" NOT NULL, "tier_id" uuid, CONSTRAINT "UQ_8b62cabdcf4f667671c44515163" UNIQUE ("sale_id"), CONSTRAINT "PK_8a5466419550ebc606629f7aa20" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_8b62cabdcf4f667671c4451516" ON "ticket_sale_transactions" ("sale_id") `);
+        await queryRunner.query(`CREATE INDEX "IDX_098947db4a51317f03784dccbe" ON "ticket_sale_transactions" ("seller_wallet_address") `);
+        await queryRunner.query(`CREATE INDEX "IDX_5f4d6332ed6028bcd4adda889c" ON "ticket_sale_transactions" ("buyer_wallet_address") `);
+        await queryRunner.query(`CREATE INDEX "IDX_712aae2d964c7b30ecfa27fab9" ON "ticket_sale_transactions" ("transaction_hash") `);
+        await queryRunner.query(`CREATE INDEX "IDX_e6aa39fa28040f2ddf3e0d7598" ON "ticket_sale_transactions" ("status") `);
+        await queryRunner.query(`CREATE INDEX "IDX_109fde1b957dcdd65e6ea98a7a" ON "ticket_sale_transactions" ("tier_id") `);
+        await queryRunner.query(`CREATE TABLE "ticket_tiers" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "name" character varying NOT NULL, "price" numeric NOT NULL, "total_supply" integer NOT NULL, "available_supply" integer NOT NULL, "max_resale_price" integer, "min_resale_price" integer, "royalty_percentage" integer NOT NULL, "tier_index" integer, "description" text NOT NULL, "event_id" uuid, CONSTRAINT "PK_917cfec124fa5e8ce04d1e7b865" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_73e479ba60b35caae8249e94c8" ON "ticket_tiers" ("event_id") `);
+        await queryRunner.query(`CREATE TABLE "artists" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "name" character varying NOT NULL, "wallet_address" character varying NOT NULL, "class_id" uuid, CONSTRAINT "PK_09b823d4607d2675dc4ffa82261" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "artist_classes" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "name" character varying NOT NULL, "royalty_percent" numeric(5,2) NOT NULL, "event_id" uuid, CONSTRAINT "PK_ff5b60ea60f569434bcd55e90e9" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_21692449c9735397756a567c1c" ON "artist_classes" ("event_id") `);
+        await queryRunner.query(`CREATE TABLE "action_logs" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "action" json NOT NULL, "userId" uuid, "eventId" uuid, CONSTRAINT "PK_cc15d2a348eaf2e1e153055380c" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_de319bbd28a51b275eb155b130" ON "action_logs" ("userId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_1fc00ce49358d9f3c39546a064" ON "action_logs" ("eventId") `);
+        await queryRunner.query(`CREATE TYPE "public"."events_status_enum" AS ENUM('draft', 'published', 'pending', 'cancelled')`);
+        await queryRunner.query(`INSERT INTO "typeorm_metadata"("database", "schema", "table", "type", "name", "value") VALUES ($1, $2, $3, $4, $5, $6)`, ["nft-ticket","public","events","GENERATED_COLUMN","search_vector","to_tsvector('simple', name)"]);
+        await queryRunner.query(`CREATE TABLE "events" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "on_chain_id" bigint, "transaction_hash" character varying, "thumbnail_url" character varying NOT NULL, "cover_photo_url" character varying NOT NULL, "name" character varying NOT NULL, "venue" character varying NOT NULL, "sell_start_date" TIMESTAMP NOT NULL, "sell_end_date" TIMESTAMP NOT NULL, "event_start_date" TIMESTAMP NOT NULL, "event_end_date" TIMESTAMP NOT NULL, "description" character varying NOT NULL, "status" "public"."events_status_enum" NOT NULL, "seatmap_url" character varying NOT NULL, "location" character varying NOT NULL, "event_metadata_url" character varying, "ticket_metadata_url" character varying, "search_vector" tsvector GENERATED ALWAYS AS (to_tsvector('simple', name)) STORED, "ticket_address" character varying, "max_per_user" integer, "organizer_id" uuid, CONSTRAINT "UQ_285ddc88852289f69ebf71e419c" UNIQUE ("on_chain_id"), CONSTRAINT "PK_40731c7151fe4be3116e45ddf73" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_285ddc88852289f69ebf71e419" ON "events" ("on_chain_id") `);
+        await queryRunner.query(`CREATE INDEX "IDX_14c9ce53a2c2a1c781b8390123" ON "events" ("organizer_id") `);
+        await queryRunner.query(`CREATE INDEX "IDX_bae2a6525632d5fc41c44ac74e" ON "events" ("transaction_hash") `);
+        await queryRunner.query(`CREATE INDEX "IDX_dfa3d03bef3f90f650fd138fb3" ON "events" ("name") `);
+        await queryRunner.query(`CREATE INDEX "IDX_0f534bbd5739a0b650a1d1d234" ON "events" ("venue") `);
+        await queryRunner.query(`CREATE INDEX "IDX_3ece4837f54d84908a57f6c223" ON "events" ("sell_start_date") `);
+        await queryRunner.query(`CREATE INDEX "IDX_6bfa6b72a329c37c87913983c9" ON "events" ("sell_end_date") `);
+        await queryRunner.query(`CREATE INDEX "IDX_3cb9fff312fec81e41d0ee006b" ON "events" ("event_start_date") `);
+        await queryRunner.query(`CREATE INDEX "IDX_ed59304ad6a8a546efdcf6fcc9" ON "events" ("event_end_date") `);
+        await queryRunner.query(`CREATE INDEX "IDX_03dcebc1ab44daa177ae9479c4" ON "events" ("status") `);
+        await queryRunner.query(`CREATE INDEX "search_vector_idx" ON "events" ("search_vector") `);
+        await queryRunner.query(`CREATE TABLE "organizer_details" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "email" character varying NOT NULL, "phone_number" character varying(10), "bio" character varying, "facebook_link" character varying, "telegram_link" character varying, "instagram_link" character varying, "x_link" character varying, "discord_link" character varying, "website_link" character varying, "organizer_id" uuid, CONSTRAINT "UQ_230e2e33afe025ab2ed5f6df7b5" UNIQUE ("email"), CONSTRAINT "REL_5f43cb4a432c14134cc49863e2" UNIQUE ("organizer_id"), CONSTRAINT "PK_7517af9c65ab7f15d30f38fb9d1" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_230e2e33afe025ab2ed5f6df7b" ON "organizer_details" ("email") `);
+        await queryRunner.query(`CREATE INDEX "IDX_b1f5c1746085a76e52c079fcc5" ON "organizer_details" ("phone_number") `);
+        await queryRunner.query(`CREATE TABLE "refresh-tokens" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "token" character varying NOT NULL, "expired_at" TIMESTAMP NOT NULL, "is_revoked" boolean NOT NULL DEFAULT false, "user_id" uuid, CONSTRAINT "PK_8c3ca3e3f1ad4fb45ec6b793aa0" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_11bab883f3b4d21b06eaed8e56" ON "refresh-tokens" ("token") `);
+        await queryRunner.query(`CREATE INDEX "IDX_36f06086d2187ca909a4cf7903" ON "refresh-tokens" ("user_id") `);
+        await queryRunner.query(`CREATE TYPE "public"."users_role_enum" AS ENUM('user', 'organizer')`);
+        await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "wallet_address" character varying NOT NULL, "name" character varying NOT NULL DEFAULT 'Unnamed', "thumbnail_url" character varying, "cover_photo_url" character varying, "role" "public"."users_role_enum" NOT NULL DEFAULT 'user', CONSTRAINT "UQ_196ef3e52525d3cd9e203bdb1de" UNIQUE ("wallet_address"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_196ef3e52525d3cd9e203bdb1d" ON "users" ("wallet_address") `);
+        await queryRunner.query(`CREATE TYPE "public"."blockchain_snapshots_status_enum" AS ENUM('success', 'failed')`);
+        await queryRunner.query(`CREATE TABLE "blockchain_snapshots" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "block_number" integer NOT NULL, "transaction_hash" character varying NOT NULL, "event_name" character varying NOT NULL, "event_data" json NOT NULL, "status" "public"."blockchain_snapshots_status_enum" NOT NULL, CONSTRAINT "UQ_5b4f6fe3e5d514c499f99d563b6" UNIQUE ("transaction_hash"), CONSTRAINT "PK_9f9faf4c67d4396edd740c8162d" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_a01a813a0ac504d29ea37345aa" ON "blockchain_snapshots" ("block_number") `);
+        await queryRunner.query(`CREATE INDEX "IDX_5b4f6fe3e5d514c499f99d563b" ON "blockchain_snapshots" ("transaction_hash") `);
+        await queryRunner.query(`ALTER TABLE "nft_tickets" ADD CONSTRAINT "FK_750903ba713ebe98677f85b4a3f" FOREIGN KEY ("owner_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "nft_tickets" ADD CONSTRAINT "FK_4406e20cbba44599762d5f96b13" FOREIGN KEY ("tier_id") REFERENCES "ticket_tiers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "ticket_sale_transactions" ADD CONSTRAINT "FK_109fde1b957dcdd65e6ea98a7af" FOREIGN KEY ("tier_id") REFERENCES "ticket_tiers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "ticket_tiers" ADD CONSTRAINT "FK_73e479ba60b35caae8249e94c81" FOREIGN KEY ("event_id") REFERENCES "events"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "artists" ADD CONSTRAINT "FK_09e6be072a4b8cd427ecf4d3fce" FOREIGN KEY ("class_id") REFERENCES "artist_classes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "artist_classes" ADD CONSTRAINT "FK_21692449c9735397756a567c1cf" FOREIGN KEY ("event_id") REFERENCES "events"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "action_logs" ADD CONSTRAINT "FK_de319bbd28a51b275eb155b1302" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "action_logs" ADD CONSTRAINT "FK_1fc00ce49358d9f3c39546a0644" FOREIGN KEY ("eventId") REFERENCES "events"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "events" ADD CONSTRAINT "FK_14c9ce53a2c2a1c781b8390123e" FOREIGN KEY ("organizer_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "organizer_details" ADD CONSTRAINT "FK_5f43cb4a432c14134cc49863e24" FOREIGN KEY ("organizer_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "refresh-tokens" ADD CONSTRAINT "FK_36f06086d2187ca909a4cf79030" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "refresh-tokens" DROP CONSTRAINT "FK_36f06086d2187ca909a4cf79030"`);
+        await queryRunner.query(`ALTER TABLE "organizer_details" DROP CONSTRAINT "FK_5f43cb4a432c14134cc49863e24"`);
+        await queryRunner.query(`ALTER TABLE "events" DROP CONSTRAINT "FK_14c9ce53a2c2a1c781b8390123e"`);
+        await queryRunner.query(`ALTER TABLE "action_logs" DROP CONSTRAINT "FK_1fc00ce49358d9f3c39546a0644"`);
+        await queryRunner.query(`ALTER TABLE "action_logs" DROP CONSTRAINT "FK_de319bbd28a51b275eb155b1302"`);
+        await queryRunner.query(`ALTER TABLE "artist_classes" DROP CONSTRAINT "FK_21692449c9735397756a567c1cf"`);
+        await queryRunner.query(`ALTER TABLE "artists" DROP CONSTRAINT "FK_09e6be072a4b8cd427ecf4d3fce"`);
+        await queryRunner.query(`ALTER TABLE "ticket_tiers" DROP CONSTRAINT "FK_73e479ba60b35caae8249e94c81"`);
+        await queryRunner.query(`ALTER TABLE "ticket_sale_transactions" DROP CONSTRAINT "FK_109fde1b957dcdd65e6ea98a7af"`);
+        await queryRunner.query(`ALTER TABLE "nft_tickets" DROP CONSTRAINT "FK_4406e20cbba44599762d5f96b13"`);
+        await queryRunner.query(`ALTER TABLE "nft_tickets" DROP CONSTRAINT "FK_750903ba713ebe98677f85b4a3f"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_5b4f6fe3e5d514c499f99d563b"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_a01a813a0ac504d29ea37345aa"`);
+        await queryRunner.query(`DROP TABLE "blockchain_snapshots"`);
+        await queryRunner.query(`DROP TYPE "public"."blockchain_snapshots_status_enum"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_196ef3e52525d3cd9e203bdb1d"`);
+        await queryRunner.query(`DROP TABLE "users"`);
+        await queryRunner.query(`DROP TYPE "public"."users_role_enum"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_36f06086d2187ca909a4cf7903"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_11bab883f3b4d21b06eaed8e56"`);
+        await queryRunner.query(`DROP TABLE "refresh-tokens"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_b1f5c1746085a76e52c079fcc5"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_230e2e33afe025ab2ed5f6df7b"`);
+        await queryRunner.query(`DROP TABLE "organizer_details"`);
+        await queryRunner.query(`DROP INDEX "public"."search_vector_idx"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_03dcebc1ab44daa177ae9479c4"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_ed59304ad6a8a546efdcf6fcc9"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_3cb9fff312fec81e41d0ee006b"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_6bfa6b72a329c37c87913983c9"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_3ece4837f54d84908a57f6c223"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_0f534bbd5739a0b650a1d1d234"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_dfa3d03bef3f90f650fd138fb3"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_bae2a6525632d5fc41c44ac74e"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_14c9ce53a2c2a1c781b8390123"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_285ddc88852289f69ebf71e419"`);
+        await queryRunner.query(`DROP TABLE "events"`);
+        await queryRunner.query(`DELETE FROM "typeorm_metadata" WHERE "type" = $1 AND "name" = $2 AND "database" = $3 AND "schema" = $4 AND "table" = $5`, ["GENERATED_COLUMN","search_vector","nft-ticket","public","events"]);
+        await queryRunner.query(`DROP TYPE "public"."events_status_enum"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_1fc00ce49358d9f3c39546a064"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_de319bbd28a51b275eb155b130"`);
+        await queryRunner.query(`DROP TABLE "action_logs"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_21692449c9735397756a567c1c"`);
+        await queryRunner.query(`DROP TABLE "artist_classes"`);
+        await queryRunner.query(`DROP TABLE "artists"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_73e479ba60b35caae8249e94c8"`);
+        await queryRunner.query(`DROP TABLE "ticket_tiers"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_109fde1b957dcdd65e6ea98a7a"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_e6aa39fa28040f2ddf3e0d7598"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_712aae2d964c7b30ecfa27fab9"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_5f4d6332ed6028bcd4adda889c"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_098947db4a51317f03784dccbe"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_8b62cabdcf4f667671c4451516"`);
+        await queryRunner.query(`DROP TABLE "ticket_sale_transactions"`);
+        await queryRunner.query(`DROP TYPE "public"."ticket_sale_transactions_status_enum"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_750903ba713ebe98677f85b4a3"`);
+        await queryRunner.query(`DROP TABLE "nft_tickets"`);
+    }
+
+}

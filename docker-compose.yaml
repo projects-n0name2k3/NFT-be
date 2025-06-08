@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nft-ticket
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+      target: development
+    command: npm run start:dev
+    env_file:
+      - src/.env.dev
+    ports:
+      - '2345:2345'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - postgres
+    restart: unless-stopped
+volumes:
+  postgres_data:
