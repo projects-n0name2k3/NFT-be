@@ -35,7 +35,12 @@ async function bootstrap() {
   //get port and ipv4
   const PORT = configService.getOrThrow<number>('PORT');
 
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api-docs', app, document, {
+    swaggerOptions: {
+      customCssUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css',
+    },
+  });
 
   await app.listen(PORT);
   console.log('APP is running on port ', PORT);
