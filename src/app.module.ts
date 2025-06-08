@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { CacheModule } from '@nestjs/cache-manager';
-import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 import { Request, Response } from 'express';
 import * as controllers from './controllers';
 import * as services from './services';
@@ -16,17 +15,6 @@ import { BlockchainEventProcessor } from './services/blockchain-event-processor.
 @Module({
   imports: [
     JwtModule.register({}),
-    PinoLoggerModule.forRoot({
-      pinoHttp: {
-        transport: {
-          target: 'pino-pretty',
-          options: { singeLine: true, colorize: true },
-        },
-        customProps: (req: Request, res: Response) => ({
-          body: req.body,
-        }),
-      },
-    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
