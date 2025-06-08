@@ -1,0 +1,36 @@
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { Cache } from 'cache-manager';
+import { Request, Response } from 'express';
+import { Repository } from 'typeorm';
+import { MailService } from './mail.service';
+import { RefreshToken, User, OrganizerDetail } from '../entities';
+import { VerifyDto, VerifyEmailDto, VerifyOrganizerDto, VerifyWalletDto, TokenPayloadDto } from '../dto';
+import { SCService } from './sc.service';
+export declare class AuthService {
+    private cacheManager;
+    private readonly jwtService;
+    private readonly configService;
+    private readonly mailService;
+    private readonly scService;
+    private readonly refreshTokenRepository;
+    private readonly userRepository;
+    private readonly organizerDetailRepository;
+    private readonly accessTokenSecret;
+    private readonly refreshTokenSecret;
+    private readonly accessTokenTtl;
+    private readonly refreshTokenTtl;
+    private readonly cookieConfig;
+    constructor(cacheManager: Cache, jwtService: JwtService, configService: ConfigService, mailService: MailService, scService: SCService, refreshTokenRepository: Repository<RefreshToken>, userRepository: Repository<User>, organizerDetailRepository: Repository<OrganizerDetail>);
+    private generateNonce;
+    generateMessage(walletAddress: string): Promise<string>;
+    private encodeAccessToken;
+    private encodeRefreshToken;
+    decodeRefreshToken(token: string): Promise<TokenPayloadDto>;
+    signOut(req: Request, res: Response): Promise<void>;
+    refreshToken(req: Request, res: Response): Promise<void>;
+    verifyUser(body: VerifyWalletDto, res: Response): Promise<void>;
+    sendOtp(body: VerifyDto, res: Response): Promise<Response<any, Record<string, any>>>;
+    verifyWalletOrganizer(body: VerifyOrganizerDto, res: Response): Promise<Response<any, Record<string, any>>>;
+    verifyEmail(body: VerifyEmailDto, res: Response): Promise<Response<any, Record<string, any>>>;
+}
