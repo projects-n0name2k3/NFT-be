@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TicketTierDto } from 'src/dto';
-import { Event, TicketSaleTransaction, TicketTier } from 'src/entities';
-import { SCService } from 'src/services/sc.service';
+import { TicketTierDto } from '../dto';
+import { Event, TicketSaleTransaction, TicketTier } from '../entities';
+import { SCService } from '../services/sc.service';
 import { Repository } from 'typeorm';
 
 @Injectable()

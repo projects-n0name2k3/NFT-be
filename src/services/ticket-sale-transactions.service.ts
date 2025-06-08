@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TokenPayloadDto } from 'src/dto';
-import {
-  GetTicketsByUserDto,
-  SortType,
-} from 'src/dto/get-ticket-inventory.dto';
-import { TicketSaleTransaction } from 'src/entities';
+import { TokenPayloadDto } from '../dto';
+import { GetTicketsByUserDto, SortType } from '../dto/get-ticket-inventory.dto';
+import { TicketSaleTransaction } from '../entities';
 import { Repository } from 'typeorm';
 
 @Injectable()

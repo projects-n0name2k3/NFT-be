@@ -19,10 +19,10 @@ import {
 } from '@nestjs/swagger';
 import { ApiQuery } from '@nestjs/swagger';
 import { number, string } from 'joi';
-import { Role } from 'src/common/decorators/role.decorator';
-import { User } from 'src/common/decorators/user.decorator';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
-import { RoleGuard } from 'src/common/guards/role.guard';
+import { Role } from '../common/decorators/role.decorator';
+import { User } from '../common/decorators/user.decorator';
+import { JwtGuard } from '../common/guards/jwt.guard';
+import { RoleGuard } from '../common/guards/role.guard';
 import {
   GetEventDetailsDto,
   GetTicketTierDetailsDto,
@@ -32,21 +32,21 @@ import {
   VerifyResaleCancellationStatusDto,
   VerifyResaleCreationStatusDto,
   GetNftTicketDetailDto,
-} from 'src/dto';
-import { TicketDto } from 'src/dto/create-ticket.dto';
-import { GetResaleTicketDto } from 'src/dto/get-resale-ticket.dto';
-import { GetTicketsByUserDto } from 'src/dto/get-ticket-inventory.dto';
-import { SearchResaleTicketDto } from 'src/dto/search-resale-ticket.dto';
-import { GetTicketsByTierDto } from 'src/dto/search-ticket.dto';
-import { GetStatisticsDto, TimePeriod } from 'src/dto/statictis.dto';
-import { UserRole } from 'src/entities/user.entity';
+} from '../dto';
+import { TicketDto } from '../dto/create-ticket.dto';
+import { GetResaleTicketDto } from '../dto/get-resale-ticket.dto';
+import { GetTicketsByUserDto } from '../dto/get-ticket-inventory.dto';
+import { SearchResaleTicketDto } from '../dto/search-resale-ticket.dto';
+import { GetTicketsByTierDto } from '../dto/search-ticket.dto';
+import { GetStatisticsDto, TimePeriod } from '../dto/statictis.dto';
+import { UserRole } from '../entities/user.entity';
 import {
   BlockchainSnapshotsService,
   TicketSaleTransactionsService,
   TicketTiersService,
-} from 'src/services';
-import { NftTicketsService } from 'src/services/nft-tickets.service';
-import { RevenueService } from 'src/services/revenue-chart.service';
+} from '../services';
+import { NftTicketsService } from '../services/nft-tickets.service';
+import { RevenueService } from '../services/revenue-chart.service';
 @Controller('tickets')
 export class TicketsController {
   constructor(

@@ -17,15 +17,15 @@ import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { verifyMessage } from 'ethers';
 import { MailService } from './mail.service';
-import { RefreshToken, User, OrganizerDetail } from 'src/entities';
-import { UserRole } from 'src/entities/user.entity';
+import { RefreshToken, User, OrganizerDetail } from '../entities';
+import { UserRole } from '../entities/user.entity';
 import {
   VerifyDto,
   VerifyEmailDto,
   VerifyOrganizerDto,
   VerifyWalletDto,
   TokenPayloadDto,
-} from 'src/dto';
+} from '../dto';
 import { SCService } from './sc.service';
 @Injectable()
 export class AuthService {

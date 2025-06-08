@@ -19,9 +19,9 @@ import {
   SearchEventDto,
   TicketTierDto,
   TokenPayloadDto,
-} from 'src/dto';
-import { ArtistClass, Event, TicketTier, User } from 'src/entities';
-import { EventStatus } from 'src/entities/event.entity';
+} from '../dto';
+import { ArtistClass, Event, TicketTier, User } from '../entities';
+import { EventStatus } from '../entities/event.entity';
 import { Repository } from 'typeorm';
 import { ArtistClassesService } from './artist-classes.service';
 import { FilesService } from './files.service';
@@ -30,8 +30,8 @@ import { TicketTiersService } from './ticket-tiers.service';
 import { ArtistsService } from './artists.service';
 import { BlockchainSnapshotsService } from './blockchain-snapshots.service';
 import { NftTicketsService } from './nft-tickets.service';
-import { TicketSaleStatus } from 'src/entities/ticket-sale-transaction.entity';
-import { SCService } from 'src/services/sc.service';
+import { TicketSaleStatus } from '../entities/ticket-sale-transaction.entity';
+import { SCService } from '../services/sc.service';
 
 @Injectable()
 export class EventsService {

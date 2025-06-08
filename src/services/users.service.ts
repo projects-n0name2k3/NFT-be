@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/entities';
-import { TokenPayloadDto } from 'src/dto';
+import { User } from '../entities';
+import { TokenPayloadDto } from '../dto';
 import { FilesService } from './files.service';
 import { ApiTags } from '@nestjs/swagger';
 

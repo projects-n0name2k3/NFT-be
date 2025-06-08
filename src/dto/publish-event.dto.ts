@@ -10,9 +10,9 @@ import {
   Validate,
   ValidateNested,
 } from 'class-validator';
-import { ArtistClassDto } from 'src/dto/create-artist-class.dto';
+import { ArtistClassDto } from '../dto/create-artist-class.dto';
 import { TicketTierDto } from './create-ticket-tier.dto';
-import { DateOrderConstraint } from 'src/common/validators/date-order.constraint';
+import { DateOrderConstraint } from '../common/validators/date-order.constraint';
 
 export class PublishEventDto {
   @ApiProperty({

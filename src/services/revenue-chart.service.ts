@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Event, TicketSaleTransaction } from 'src/entities';
+import { Event, TicketSaleTransaction } from '../entities';
 import { Between, LessThan, Repository } from 'typeorm';
 import { parseISO, startOfDay, endOfDay, format } from 'date-fns';
-import { GetStatisticsDto, TimePeriod } from 'src/dto/statictis.dto';
-import { EventStatus } from 'src/entities/event.entity';
-import { TokenPayloadDto } from 'src/dto';
-import { SCService } from 'src/services/sc.service';
+import { GetStatisticsDto, TimePeriod } from '../dto/statictis.dto';
+import { EventStatus } from '../entities/event.entity';
+import { TokenPayloadDto } from '../dto';
+import { SCService } from '../services/sc.service';
 
 @Injectable()
 export class RevenueService {

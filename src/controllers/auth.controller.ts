@@ -17,7 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
+import { JwtGuard } from '../common/guards/jwt.guard';
 import { Request, Response } from 'express';
 import {
   GenerateMessageDto,
@@ -25,7 +25,7 @@ import {
   VerifyEmailDto,
   VerifyOrganizerDto,
   VerifyWalletDto,
-} from 'src/dto';
+} from '../dto';
 
 @ApiTags('Authentication')
 @Controller('auth')

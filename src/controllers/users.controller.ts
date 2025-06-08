@@ -9,8 +9,8 @@ import {
   Body,
 } from '@nestjs/common';
 import { UsersService } from '../services';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
-import { User } from 'src/common/decorators/user.decorator';
+import { JwtGuard } from '../common/guards/jwt.guard';
+import { User } from '../common/decorators/user.decorator';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import {
   ApiBody,
@@ -19,8 +19,8 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
-import { UpdateUserDto, TokenPayloadDto } from 'src/dto';
-import { UpdateProfileFileValidationPipe } from 'src/common/pipes/update-profile-file-validation.pipe';
+import { UpdateUserDto, TokenPayloadDto } from '../dto';
+import { UpdateProfileFileValidationPipe } from '../common/pipes/update-profile-file-validation.pipe';
 
 @Controller('users')
 export class UsersController {

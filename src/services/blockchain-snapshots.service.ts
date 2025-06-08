@@ -9,15 +9,15 @@ import {
   VerifyBuyResaleTicketStatusDto,
   VerifyResaleCancellationStatusDto,
   VerifyResaleCreationStatusDto,
-} from 'src/dto';
+} from '../dto';
 import {
   BlockchainSnapshot,
   TicketTier,
   TicketSaleTransaction,
   NftTicket,
-} from 'src/entities';
-import { BlockchainSnapshotStatus } from 'src/entities/blockchain-snapshot.entity';
-import { TicketSaleStatus } from 'src/entities/ticket-sale-transaction.entity';
+} from '../entities';
+import { BlockchainSnapshotStatus } from '../entities/blockchain-snapshot.entity';
+import { TicketSaleStatus } from '../entities/ticket-sale-transaction.entity';
 import { Repository } from 'typeorm';
 import { EventBlockchain } from './blockchain-event-processor.service';
 
@@ -30,7 +30,7 @@ export class BlockchainSnapshotsService {
     private readonly ticketTierRepository: Repository<TicketTier>,
     @InjectRepository(TicketSaleTransaction)
     private readonly ticketSaleTransactionRepository: Repository<TicketSaleTransaction>,
-  ) { }
+  ) {}
 
   async getTransactionByHash(transactionHash: string) {
     const transaction = await this.blockchainSnapshotRepository.findOne({

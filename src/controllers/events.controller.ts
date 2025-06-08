@@ -28,11 +28,11 @@ import {
   ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
-import { Role } from 'src/common/decorators/role.decorator';
-import { User } from 'src/common/decorators/user.decorator';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
-import { RoleGuard } from 'src/common/guards/role.guard';
-import { CreateEventFileValidationPipe } from 'src/common/pipes/create-event-file-validation.pipe';
+import { Role } from '../common/decorators/role.decorator';
+import { User } from '../common/decorators/user.decorator';
+import { JwtGuard } from '../common/guards/jwt.guard';
+import { RoleGuard } from '../common/guards/role.guard';
+import { CreateEventFileValidationPipe } from '../common/pipes/create-event-file-validation.pipe';
 import {
   CheckEventCreationStatusDto,
   CreateEventDraftDto,
@@ -41,14 +41,14 @@ import {
   TokenPayloadDto,
   GetEventMarketplaceDto,
   PublishEventDto,
-} from 'src/dto';
-import { SearchEventOrganizerDto } from 'src/dto/search-event-organizer.dto';
+} from '../dto';
+import { SearchEventOrganizerDto } from '../dto/search-event-organizer.dto';
 import { UserRole } from '../entities/user.entity';
 import { EventsService } from '../services';
 
 @Controller('events')
 export class EventsController {
-  constructor(private readonly eventsService: EventsService) { }
+  constructor(private readonly eventsService: EventsService) {}
 
   @ApiOperation({ summary: 'Search events for user' })
   @ApiConsumes('application/json')
@@ -496,8 +496,6 @@ export class EventsController {
       message: 'Event deleted successfully',
     };
   }
-
-
 
   @ApiOperation({ summary: 'Get event details' })
   @ApiCookieAuth('access_token')

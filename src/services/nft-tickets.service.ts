@@ -4,9 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SortType } from 'src/dto/get-ticket-inventory.dto';
-import { GetNftTicketDetailDto, TicketTierDto, TokenPayloadDto } from 'src/dto';
-import { GetTicketsByUserDto } from 'src/dto/get-ticket-inventory.dto';
+import { SortType } from '../dto/get-ticket-inventory.dto';
+import { GetNftTicketDetailDto, TicketTierDto, TokenPayloadDto } from '../dto';
+import { GetTicketsByUserDto } from '../dto/get-ticket-inventory.dto';
 import { IsNull, Not, Repository } from 'typeorm';
 import {
   Event,
@@ -16,14 +16,14 @@ import {
   User,
   NftTicket,
   BlockchainSnapshot,
-} from 'src/entities';
-import { TicketDto } from 'src/dto/create-ticket.dto';
-import { TicketSaleStatus } from 'src/entities/ticket-sale-transaction.entity';
+} from '../entities';
+import { TicketDto } from '../dto/create-ticket.dto';
+import { TicketSaleStatus } from '../entities/ticket-sale-transaction.entity';
 import { from } from 'rxjs';
 import { toASCII } from 'punycode';
-import { SearchResaleTicketDto } from 'src/dto/search-resale-ticket.dto';
-import { GetTicketsByTierDto } from 'src/dto/search-ticket.dto';
-import { GetResaleTicketDto } from 'src/dto/get-resale-ticket.dto';
+import { SearchResaleTicketDto } from '../dto/search-resale-ticket.dto';
+import { GetTicketsByTierDto } from '../dto/search-ticket.dto';
+import { GetResaleTicketDto } from '../dto/get-resale-ticket.dto';
 
 @Injectable()
 export class NftTicketsService {

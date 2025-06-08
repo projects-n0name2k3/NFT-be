@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ethers } from 'ethers';
-import { AbiConfig } from 'src/config/abi.config';
+import { AbiConfig } from '../config/abi.config';
 
 @Injectable()
 export class SCService {

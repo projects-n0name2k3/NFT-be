@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArtistClassDto } from 'src/dto';
-import { Artist } from 'src/entities';
-import { ArtistClass } from 'src/entities/artist-class.entity';
+import { ArtistClassDto } from '../dto';
+import { Artist } from '../entities';
+import { ArtistClass } from '../entities/artist-class.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ArtistClassesService {
     private readonly artistClassesRepository: Repository<ArtistClass>,
     @InjectRepository(Artist)
     private readonly artistRepository: Repository<Artist>,
-  ) { }
+  ) {}
 
   async createArtistClasses(eventId: string, artistClassDto: ArtistClassDto[]) {
     const artists: Artist[] = [];

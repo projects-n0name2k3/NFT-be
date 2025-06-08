@@ -9,10 +9,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { OrganizerDetailsService } from '../services';
-import { User } from 'src/common/decorators/user.decorator';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
+import { User } from '../common/decorators/user.decorator';
+import { JwtGuard } from '../common/guards/jwt.guard';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { UpdateOrganizerDto, TokenPayloadDto } from 'src/dto';
+import { UpdateOrganizerDto, TokenPayloadDto } from '../dto';
 import {
   ApiBody,
   ApiConsumes,
@@ -20,10 +20,10 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { RoleGuard } from 'src/common/guards/role.guard';
-import { Role } from 'src/common/decorators/role.decorator';
-import { UserRole } from 'src/entities/user.entity';
-import { UpdateProfileFileValidationPipe } from 'src/common/pipes/update-profile-file-validation.pipe';
+import { RoleGuard } from '../common/guards/role.guard';
+import { Role } from '../common/decorators/role.decorator';
+import { UserRole } from '../entities/user.entity';
+import { UpdateProfileFileValidationPipe } from '../common/pipes/update-profile-file-validation.pipe';
 
 @ApiTags('Organizers')
 @Controller('organizers')

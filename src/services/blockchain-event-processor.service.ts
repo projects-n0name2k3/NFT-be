@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Cache } from 'cache-manager';
 import { Interface } from 'ethers';
 import { AbiConfig } from '../config/abi.config';
-import { BlockchainSnapshotsService } from 'src/services/blockchain-snapshots.service';
+import { BlockchainSnapshotsService } from '../services/blockchain-snapshots.service';
 import { EventStatus, Event } from '../entities/event.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
