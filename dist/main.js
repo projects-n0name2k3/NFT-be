@@ -11,6 +11,18 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
     app.setGlobalPrefix('api/v1');
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', 'https://nft-4lib.vercel.app');
+        res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        if (req.method === 'OPTIONS') {
+            res.status(204).send('');
+        }
+        else {
+            next();
+        }
+    });
     app.enableCors({
         origin: 'https://nft-4lib.vercel.app',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
