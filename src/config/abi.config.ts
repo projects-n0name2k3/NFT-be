@@ -1,18 +1,26 @@
 import { ethers, Interface } from 'ethers';
 import * as fs from 'fs';
+import path from 'path';
+const currentDir = __dirname;
 
 class AbiConfig {
   static abiEvent = JSON.parse(
-    fs.readFileSync('../common/abi/abi-event-manager.json', 'utf-8'),
+    fs.readFileSync(
+      path.join(currentDir, '../../common/abi/abi-event-manager.json'), // Điều chỉnh số cấp thư mục
+      'utf-8',
+    ),
   );
   static ticketEvent = JSON.parse(
     fs.readFileSync(
-      '../common/abi/abi-sold-ticket-event-manager.json',
+      path.join(currentDir, '../../common/abi/abi-ticket.json'), // Điều chỉnh số cấp thư mục
       'utf-8',
     ),
   );
   static marketplaceEvent = JSON.parse(
-    fs.readFileSync('../common/abi/abi-marketplace.json', 'utf-8'),
+    fs.readFileSync(
+      path.join(currentDir, '../../common/abi/abi-marketplace.json'), // Điều chỉnh số cấp thư mục
+      'utf-8',
+    ),
   );
   static provider = new ethers.JsonRpcProvider(
     'https://bnb-testnet.g.alchemy.com/v2/fZR0qlgcTJzomS9xLEff1Rp4KClaN00z',
