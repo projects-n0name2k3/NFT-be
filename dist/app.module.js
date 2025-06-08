@@ -12,7 +12,6 @@ const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const Joi = require("joi");
 const cache_manager_1 = require("@nestjs/cache-manager");
-const nestjs_pino_1 = require("nestjs-pino");
 const controllers = require("./controllers");
 const services = require("./services");
 const entities = require("./entities");
@@ -27,17 +26,6 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             jwt_1.JwtModule.register({}),
-            nestjs_pino_1.LoggerModule.forRoot({
-                pinoHttp: {
-                    transport: {
-                        target: 'pino-pretty',
-                        options: { singeLine: true, colorize: true },
-                    },
-                    customProps: (req, res) => ({
-                        body: req.body,
-                    }),
-                },
-            }),
             schedule_1.ScheduleModule.forRoot(),
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
