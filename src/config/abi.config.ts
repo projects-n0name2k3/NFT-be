@@ -1,24 +1,26 @@
 import { ethers, Interface } from 'ethers';
 import * as fs from 'fs';
 import path from 'path';
-const currentDir = __dirname;
 
 class AbiConfig {
   static abiEvent = JSON.parse(
     fs.readFileSync(
-      path.join(currentDir, '../../common/abi/abi-event-manager.json'), // Điều chỉnh số cấp thư mục
+      path.join(__dirname, '../../common/abi/abi-event-manager.json'), // Điều chỉnh số cấp thư mục
       'utf-8',
     ),
   );
   static ticketEvent = JSON.parse(
     fs.readFileSync(
-      path.join(currentDir, '../../common/abi/abi-ticket.json'), // Điều chỉnh số cấp thư mục
+      path.join(
+        __dirname,
+        '../../common/abi/abi-sold-ticket-event-manager.json',
+      ), // Điều chỉnh số cấp thư mục
       'utf-8',
     ),
   );
   static marketplaceEvent = JSON.parse(
     fs.readFileSync(
-      path.join(currentDir, '../../common/abi/abi-marketplace.json'), // Điều chỉnh số cấp thư mục
+      path.join(__dirname, '../../common/abi/abi-marketplace.json'), // Điều chỉnh số cấp thư mục
       'utf-8',
     ),
   );
