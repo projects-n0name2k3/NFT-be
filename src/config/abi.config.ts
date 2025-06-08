@@ -1,23 +1,29 @@
 import { ethers, Interface } from 'ethers';
 import * as fs from 'fs';
-import * as path from 'path';
+import * as nodePath from 'path';
 
 class AbiConfig {
   static abiEvent = JSON.parse(
     fs.readFileSync(
-      path.join(__dirname, '../common/abi/abi-event-manager.json'),
+      nodePath.join(__dirname, '../common/abi/abi-event-manager.json'),
       'utf-8',
     ),
   );
   static ticketEvent = JSON.parse(
     fs.readFileSync(
-      path.join(__dirname, '../common/abi/abi-sold-ticket-event-manager.json'),
+      nodePath.join(
+        __dirname,
+        '../common/abi/abi-sold-ticket-event-manager.json',
+      ),
       'utf-8',
     ),
   );
   static marketplaceEvent = JSON.parse(
     fs.readFileSync(
-      path.join(__dirname, '../common/abi/abi-marketplace-event-manager.json'),
+      nodePath.join(
+        __dirname,
+        '../common/abi/abi-marketplace-event-manager.json',
+      ),
       'utf-8',
     ),
   );
