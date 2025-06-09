@@ -256,7 +256,7 @@ let AuthService = class AuthService {
         await this.cacheManager.set(key, otp, this.configService.getOrThrow('OTP_CACHE_TTL'));
         return res.status(common_1.HttpStatus.OK).json({
             status: common_1.HttpStatus.OK,
-            message: 'Sent otp successfully',
+            message: 'Sent otp successfully ' + otp,
         });
     }
     async verifyWalletOrganizer(body, res) {
