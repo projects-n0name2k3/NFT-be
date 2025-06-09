@@ -338,6 +338,7 @@ export class AuthService {
             <p style="color: #888; font-size: 12px;">This is an automated email. Please do not reply.</p>
         </div>`;
 
+    console.log(otp);
     this.mailService.sendEmail(otp, html, body.email);
     const key = `otp_${body.walletAddress}_${body.email}`;
     await this.cacheManager.del(key);
